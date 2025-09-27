@@ -108,7 +108,7 @@ export default function NotesHistoryDialog({ budget_id, updateTrigger }: Props) 
           </Select>
         </div>
 
-        <ScrollArea className="h-[500px] w-full rounded-md border p-4">
+        <ScrollArea className="h-[250px] md:h-[450px] w-full rounded-md border p-4">
           {loading ? (
             <p className="text-muted-foreground text-center">Loading...</p>
           ) : history.length > 0 ? (
