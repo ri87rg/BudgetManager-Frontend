@@ -4,6 +4,7 @@ import Home from "./pages/Home"
 import CreateBudget from "./pages/CreateBudget"
 import DisplayBudget from "./pages/DisplayBudget"
 import ListBudgets from "./pages/ListBudgets"
+import { Toaster } from "@/components/ui/sonner"
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/budgets/list' element={<ListBudgets />} />
         <Route path="/budget/:id" element={<DisplayBudget />} />
       </Routes>
+      <Toaster closeButton richColors expand position="top-center" />
     </>
   )
 }
