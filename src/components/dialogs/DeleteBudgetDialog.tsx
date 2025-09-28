@@ -12,6 +12,7 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
   budget_id: string;
@@ -31,8 +32,10 @@ export default function DeleteBudgetDialog({
       await deleteBudget(budget_id);
       refreshBudgetsTrigger?.();
       setOpen(false);
+      toast.success("Budget Has Been Deleted Successfully")
     } catch (err) {
       console.error("Failed to remove budget:", err);
+      toast.error("Failed To Remove Budget")
     } finally {
       setIsLoading(false);
     }

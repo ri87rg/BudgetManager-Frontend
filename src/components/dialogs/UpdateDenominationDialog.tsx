@@ -15,6 +15,7 @@ import { Label } from "../ui/label";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Pencil } from "lucide-react";
+import { toast } from "sonner"
 
 interface Props {
   budget_id: string;
@@ -88,8 +89,10 @@ export default function UpdateDenominationDialog({
               });
               refreshBudget?.();
               setOpen(false);
+              toast.success("Note Has Been Edited Successfully")
             } catch (err) {
               console.error("Failed to update note", err);
+              toast.error("Failed To Edit Note")
             } finally {
               setSubmitting(false);
             }

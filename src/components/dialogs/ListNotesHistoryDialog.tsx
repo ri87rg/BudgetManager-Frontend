@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/pagination";
 import { History } from "lucide-react";
 import NoteHistoryCard from "../cards/NoteHistoryCard";
+import { toast } from "sonner";
 
 type Props = {
   budget_id: string;
@@ -58,6 +59,7 @@ export default function NotesHistoryDialog({ budget_id, updateTrigger }: Props) 
       setTotalPages(res.totalPages || 1);
     } catch (err) {
       console.error("Failed to fetch history:", err);
+      toast.error("Something Went Wrong, Please Try Again Later.")
     } finally {
       setLoading(false);
     }

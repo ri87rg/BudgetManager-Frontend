@@ -12,6 +12,7 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
   budget_id: string;
@@ -33,8 +34,10 @@ export default function DeleteDenominationDialog({
       await deleteNote(budget_id, note_id);
       refreshBudget?.();
       setOpen(false);
+      toast.success("Note Has Been Deleted Successfully")
     } catch (err) {
       console.error("Failed to remove note:", err);
+      toast.error("Failed To Remove Note")
     } finally {
       setIsLoading(false);
     }

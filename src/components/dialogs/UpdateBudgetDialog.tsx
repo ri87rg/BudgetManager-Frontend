@@ -15,6 +15,7 @@ import { Label } from "../ui/label";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Pencil } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
   budget_id: string;
@@ -66,8 +67,10 @@ export default function UpdateBudgetDialog({
               await updateBudget(budget_id, { name: values.name });
               refreshBudgetsTrigger?.();
               setOpen(false);
+              toast.success("Budget's Name Has Been Edited Successfully")
             } catch (err) {
               console.error("Failed to update budget", err);
+              toast.error("Failed To Update Budget's Name", {description: "Try giving it a unique name"})
             } finally {
               setSubmitting(false);
             }

@@ -22,6 +22,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { toast } from "sonner";
 
 interface FormValues {
   denomination: number | null;
@@ -82,8 +83,10 @@ export default function AddDenominationDialog({ id, refreshBudget, }: { id: stri
               });
               refreshBudget?.();
               setOpen(false);
+              toast.success("Note Has Been Created Successfully")
             } catch (err) {
               console.error("Failed to create note", err);
+              toast.error("Failed To Create Note")
             } finally {
               setSubmitting(false);
             }

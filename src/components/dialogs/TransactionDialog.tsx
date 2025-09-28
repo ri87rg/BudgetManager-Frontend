@@ -14,6 +14,7 @@ import { ArrowUpDown } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { toast } from "sonner";
 
 interface TransactionDialogProps {
   budget_id: string;
@@ -77,8 +78,10 @@ export default function TransactionDialog({ budget_id, refreshBudget }: Transact
                     refreshBudget?.();
                     resetForm();
                     setOpen(false);
+                    toast.success("Transaction Has Been Made Successfully")
                   } catch (err) {
                     console.error("Transaction failed", err);
+                    toast.error("Transaction Has Failed")
                   } finally {
                     setSubmitting(false);
                   }

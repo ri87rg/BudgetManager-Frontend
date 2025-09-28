@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router-dom"
 import { useFormik } from "formik"
 import { createBudget } from "@/services/api.ts"
+import { toast } from "sonner"
 
 import * as yup from "yup";
 
@@ -22,9 +23,11 @@ export default function CreateBudget() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const budget = await createBudget(values)
+        toast.success("Budget Has Been Created Successfully")
         navigate(`/budget/${budget.id}`)
       } catch (err) {
         console.error("Failed to create budget", err)
+        toast.error("Failed To Create Budget", {description: "Try giving it a unique name"})
       } finally {
         setSubmitting(false)
       }

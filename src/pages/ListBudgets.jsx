@@ -7,10 +7,12 @@ import {
 } from "lucide-react"
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function ListBudgets() {
   const [budgets, setBudgets] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null)
 
   const fetchBudgets = async () => {
     setLoading(true);
@@ -18,7 +20,9 @@ export default function ListBudgets() {
       const res = await listBudgets(1, 20);
       setBudgets(res.data);
     } catch (err) {
+      setError(err);
       console.error("Failed to fetch budgets:", err);
+      toast.error("Something Went Wrong, Please Try Again Later.")
     } finally {
       setLoading(false);
     }
@@ -34,6 +38,14 @@ export default function ListBudgets() {
 
   if (loading) {
     return <p className="text-center text-muted-foreground">Loading budgets...</p>;
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh_-_85px)]">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
   }
 
   return (
