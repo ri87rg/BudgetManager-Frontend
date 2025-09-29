@@ -9,7 +9,7 @@ import NoteCard from "../components/cards/NoteCard";
 import TransactionCard from "@/components/cards/transactionCard";
 
 import AddDenominationDialog from "@/components/dialogs/AddDenominationDialog";
-import TransactionDialog from "@/components/dialogs/TransactionDialog";
+import MakeTransactionDialog from "@/components/dialogs/MakeTransactionDialog";
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "../components/ui/scroll-area";
@@ -111,7 +111,7 @@ export default function DisplayBudget() {
           </div>
           <div className="btns-container flex flex-col sm:flex-row justify-center items-center gap-3 w-full max-w-md">
             <AddDenominationDialog id={id}  />
-            <TransactionDialog budget_id={id}  />
+            <MakeTransactionDialog budget_id={id}  />
           </div>
         </div>
 
