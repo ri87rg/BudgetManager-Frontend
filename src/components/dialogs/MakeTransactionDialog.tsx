@@ -33,7 +33,7 @@ const transactionSchema = Yup.object().shape({
   description: Yup.string().optional(),
 });
 
-export default function TransactionDialog({ budget_id,  }: TransactionDialogProps) {
+export default function MakeTransactionDialog({ budget_id,  }: TransactionDialogProps) {
   const fetchBudget = useBudgetStore((state) => state.fetchBudget)
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
