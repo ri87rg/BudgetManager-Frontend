@@ -13,33 +13,30 @@ import {
 import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
+import { useBudgetStore } from "@/store/budgetStore";
 
 interface Props {
   budget_id: string;
   note_id: string;
-  refreshBudget: () => void;
 }
 
 export default function DeleteDenominationDialog({
   budget_id,
   note_id,
-  refreshBudget,
 }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
+  const fetchBudget = useBudgetStore((state) => state.fetchBudget);
+  const loading = useBudgetStore((state) => state.loading);
   const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
-    setIsLoading(true);
     try {
       await deleteNote(budget_id, note_id);
-      refreshBudget?.();
+      fetchBudget(budget_id);
       setOpen(false);
       toast.success("Note Has Been Deleted Successfully")
     } catch (err) {
       console.error("Failed to remove note:", err);
       toast.error("Failed To Remove Note")
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -74,10 +71,10 @@ export default function DeleteDenominationDialog({
           <Button
             size="default"
             variant="destructive"
-            disabled={isLoading}
+            disabled={loading}
             onClick={handleDelete}
           >
-            {isLoading ? "Removing..." : "Delete Note"}
+            {loading ? "Removing..." : "Delete Note"}
           </Button>
         </DialogFooter>
       </DialogContent>

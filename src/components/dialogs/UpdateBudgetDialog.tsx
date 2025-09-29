@@ -16,11 +16,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Pencil } from "lucide-react";
 import { toast } from "sonner";
+import { useBudgetStore } from "@/store/budgetStore";
 
 interface Props {
   budget_id: string;
   name: string;
-  refreshBudgetsTrigger: () => void;
 }
 
 interface FormValues {
@@ -34,8 +34,8 @@ const validationSchema = Yup.object().shape({
 export default function UpdateBudgetDialog({
   budget_id,
   name,
-  refreshBudgetsTrigger,
 }: Props) {
+  const fetchAllBudgets = useBudgetStore((state) => state.fetchAllBudgets)
   const [open, setOpen] = useState(false);
 
   return (
@@ -65,7 +65,7 @@ export default function UpdateBudgetDialog({
           onSubmit={async (values, { setSubmitting }) => {
             try {
               await updateBudget(budget_id, { name: values.name });
-              refreshBudgetsTrigger?.();
+              fetchAllBudgets(1, 100);
               setOpen(false);
               toast.success("Budget's Name Has Been Edited Successfully")
             } catch (err) {

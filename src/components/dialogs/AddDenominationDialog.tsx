@@ -7,7 +7,6 @@ import {
   DialogTitle,
   DialogDescription,
   DialogTrigger,
-  DialogClose,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import {
@@ -23,6 +22,7 @@ import { Label } from "../ui/label";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
+import { useBudgetStore } from "@/store/budgetStore";
 
 interface FormValues {
   denomination: number | null;
@@ -42,8 +42,9 @@ const validationSchema = Yup.object().shape({
   description: Yup.string(),
 });
 
-export default function AddDenominationDialog({ id, refreshBudget, }: { id: string; refreshBudget: () => void;}) {
+export default function AddDenominationDialog({ id }: { id: string;}) {
   const [open, setOpen] = useState(false);
+  const fetchBudget = useBudgetStore((state) => state.fetchBudget);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -81,7 +82,7 @@ export default function AddDenominationDialog({ id, refreshBudget, }: { id: stri
                 denomination: Number(values.denomination),
                 quantity: Number(values.quantity),
               });
-              refreshBudget?.();
+              fetchBudget(id);
               setOpen(false);
               toast.success("Note Has Been Created Successfully")
             } catch (err) {

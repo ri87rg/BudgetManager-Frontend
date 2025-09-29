@@ -28,38 +28,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useBudgetStore } from "@/store/budgetStore";
 
 export default function DisplayBudget() {
   const { id } = useParams();
-  const [budget, setBudget] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState("desc");
   const [notesSortOrder, setNotesSortOrder] = useState("desc");
   const [isEditMode, setIsEditMode] = useState(false);
   const [unStable, setUnStable] = useState(false);
-
-  const fetchBudget = async () => {
-    try {
-      const res = await getBudget(id);
-      setBudget(res);
-    } catch (err) {
-      console.error("Failed to fetch budget:", err);
-      setError("Could not load budget.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { budget, loading, error, fetchBudget } = useBudgetStore((state) => state)
 
   useEffect(() => {
-    fetchBudget();
+    fetchBudget(id);
     refreshHistory();
   }, [id]);
-
-  const refreshBudget = () => {
-    fetchBudget();
-    refreshHistory();
-  };
 
   const refreshHistory = () => {
     setUnStable(!unStable)
@@ -128,8 +110,8 @@ export default function DisplayBudget() {
             </h1>
           </div>
           <div className="btns-container flex flex-col sm:flex-row justify-center items-center gap-3 w-full max-w-md">
-            <AddDenominationDialog id={id} refreshBudget={refreshBudget} />
-            <TransactionDialog budget_id={id} refreshBudget={refreshBudget} />
+            <AddDenominationDialog id={id}  />
+            <TransactionDialog budget_id={id}  />
           </div>
         </div>
 
@@ -216,7 +198,6 @@ export default function DisplayBudget() {
                       budget_id={id}
                       note={note}
                       isEditMode={isEditMode}
-                      refreshBudget={refreshBudget}
                     />
                   ))}
                 </div>

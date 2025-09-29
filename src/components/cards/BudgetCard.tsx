@@ -8,10 +8,9 @@ import DeleteBudgetDialog from "@/components/dialogs/DeleteBudgetDialog"
 
 type Props = {
   budget: Budget;
-  refreshBudgetsTrigger: () => void;
 };
 
-export default function BudgetCard({ budget, refreshBudgetsTrigger }: Props) {
+export default function BudgetCard({ budget }: Props) {
   const navigate = useNavigate()
   return (
     <Card className="w-full sm:w-[320px] shadow-md rounded-2xl hover:shadow-lg transition">
@@ -41,11 +40,9 @@ export default function BudgetCard({ budget, refreshBudgetsTrigger }: Props) {
           <UpdateBudgetDialog 
             budget_id={budget.id} 
             name={budget.name} 
-            refreshBudgetsTrigger={refreshBudgetsTrigger} 
           />
           <DeleteBudgetDialog 
             budget_id={budget.id} 
-            refreshBudgetsTrigger={refreshBudgetsTrigger} 
           />
         </div>
       </CardContent>

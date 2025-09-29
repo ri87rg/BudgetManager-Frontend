@@ -15,10 +15,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
+import { useBudgetStore } from "@/store/budgetStore";
 
 interface TransactionDialogProps {
   budget_id: string;
-  refreshBudget: () => void;
 }
 
 interface FormValues {
@@ -33,7 +33,8 @@ const transactionSchema = Yup.object().shape({
   description: Yup.string().optional(),
 });
 
-export default function TransactionDialog({ budget_id, refreshBudget }: TransactionDialogProps) {
+export default function TransactionDialog({ budget_id,  }: TransactionDialogProps) {
+  const fetchBudget = useBudgetStore((state) => state.fetchBudget)
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -75,7 +76,7 @@ export default function TransactionDialog({ budget_id, refreshBudget }: Transact
                       title: values.title || undefined,
                       description: values.description || undefined,
                     });
-                    refreshBudget?.();
+                    fetchBudget(budget_id);
                     resetForm();
                     setOpen(false);
                     toast.success("Transaction Has Been Made Successfully")

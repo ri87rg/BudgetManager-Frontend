@@ -8,33 +8,17 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useBudgetStore } from "@/store/budgetStore";
 
 export default function ListBudgets() {
-  const [budgets, setBudgets] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null)
-
-  const fetchBudgets = async () => {
-    setLoading(true);
-    try {
-      const res = await listBudgets(1, 20);
-      setBudgets(res.data);
-    } catch (err) {
-      setError(err);
-      console.error("Failed to fetch budgets:", err);
-      toast.error("Something Went Wrong, Please Try Again Later.")
-    } finally {
-      setLoading(false);
-    }
-  };
+  const fetchAllBudgets = useBudgetStore((state) => state.fetchAllBudgets);
+  const budgets = useBudgetStore((state) => state.budgets);
+  const loading = useBudgetStore((state) => state.loading);
+  const error = useBudgetStore((state) => state.error);
 
   useEffect(() => {
-    fetchBudgets();
+    fetchAllBudgets(1, 100);
   }, []);
-
-  const refreshBudgets = () => {
-    fetchBudgets();
-  }
 
   if (loading) {
     return <p className="text-center text-muted-foreground">Loading budgets...</p>;
@@ -55,7 +39,7 @@ export default function ListBudgets() {
         Budgets
       </h1>
 
-      {budgets.length === 0 ? (<>
+      {!budgets || budgets.length === 0 ? (<>
         <div className="flex flex-col justify-center items-center gap-2 h-[calc(70vh_-_85px)]">
           <p className="text-muted-foreground">You Do NOT Have Any Budgets Yet.</p>
           <Link to="/budget/create">
@@ -68,7 +52,7 @@ export default function ListBudgets() {
       </>) : (
         <div className="flex flex-row flex-wrap justify-center items-center gap-6">
           {budgets.map((budget) => (
-            <BudgetCard key={budget.id} budget={budget} refreshBudgetsTrigger={refreshBudgets} />
+            <BudgetCard key={budget.id} budget={budget} />
           ))}
         </div>
       )}

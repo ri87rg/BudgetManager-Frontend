@@ -13,31 +13,28 @@ import {
 import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
+import { useBudgetStore } from "@/store/budgetStore";
 
 interface Props {
   budget_id: string;
-  refreshBudgetsTrigger: () => void;
 }
 
 export default function DeleteBudgetDialog({
   budget_id,
-  refreshBudgetsTrigger,
 }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
+  const fetchAllBudgets = useBudgetStore((state) => state.fetchAllBudgets)
+  const loading = useBudgetStore((state) => state.loading)
   const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
-    setIsLoading(true);
     try {
       await deleteBudget(budget_id);
-      refreshBudgetsTrigger?.();
+      fetchAllBudgets(1, 100);
       setOpen(false);
       toast.success("Budget Has Been Deleted Successfully")
     } catch (err) {
       console.error("Failed to remove budget:", err);
       toast.error("Failed To Remove Budget")
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -72,10 +69,10 @@ export default function DeleteBudgetDialog({
           <Button
             size="default"
             variant="destructive"
-            disabled={isLoading}
+            disabled={loading}
             onClick={handleDelete}
           >
-            {isLoading ? "Removing..." : "Delete Budget"}
+            {loading ? "Removing..." : "Delete Budget"}
           </Button>
         </DialogFooter>
       </DialogContent>

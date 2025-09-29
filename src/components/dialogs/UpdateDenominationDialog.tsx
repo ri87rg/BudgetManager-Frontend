@@ -16,6 +16,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Pencil } from "lucide-react";
 import { toast } from "sonner"
+import { useBudgetStore } from "@/store/budgetStore";
 
 interface Props {
   budget_id: string;
@@ -24,7 +25,6 @@ interface Props {
   quantity: number;
   title?: string;
   description?: string;
-  refreshBudget: () => void;
 }
 
 interface FormValues {
@@ -48,8 +48,8 @@ export default function UpdateDenominationDialog({
   quantity,
   title,
   description,
-  refreshBudget,
 }: Props) {
+  const fetchBudget = useBudgetStore((state) => state.fetchBudget)
   const [open, setOpen] = useState(false);
 
   return (
@@ -87,7 +87,7 @@ export default function UpdateDenominationDialog({
                 title: values.title || undefined,
                 description: values.description || undefined,
               });
-              refreshBudget?.();
+              fetchBudget(budget_id);
               setOpen(false);
               toast.success("Note Has Been Edited Successfully")
             } catch (err) {

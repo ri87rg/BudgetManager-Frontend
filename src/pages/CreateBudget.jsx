@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useFormik } from "formik"
 import { createBudget } from "@/services/api.ts"
 import { toast } from "sonner"
+import { useBudgetStore } from "@/store/budgetStore"
 
 import * as yup from "yup";
 
@@ -15,6 +16,7 @@ export const budgetSchema = yup.object({
 });
 
 export default function CreateBudget() {
+  const setBudget = useBudgetStore((state) => state.setBudget)
   const navigate = useNavigate()
 
   const formik = useFormik({
@@ -22,14 +24,15 @@ export default function CreateBudget() {
     validationSchema: budgetSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const budget = await createBudget(values)
-        toast.success("Budget Has Been Created Successfully")
-        navigate(`/budget/${budget.id}`)
+        const budget = await createBudget(values);
+        setBudget(budget);
+        toast.success("Budget Has Been Created Successfully");
+        navigate(`/budget/${budget.id}`);
       } catch (err) {
-        console.error("Failed to create budget", err)
-        toast.error("Failed To Create Budget", {description: "Try giving it a unique name"})
+        console.error("Failed to create budget", err);
+        toast.error("Failed To Create Budget", {description: "Try giving it a unique name"});
       } finally {
-        setSubmitting(false)
+        setSubmitting(false);
       }
     },
   })

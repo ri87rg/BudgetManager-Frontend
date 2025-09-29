@@ -15,7 +15,6 @@ import DeleteDenominationDialog from "../dialogs/DeleteDenominationDialog";
 const NoteCard = ({
   note: { budget_id, id, denomination, quantity, title, description }, 
   isEditMode, 
-  refreshBudget
 }) => {
   return (
     <Card className="w-full max-w-[600px] mx-auto my-4 shadow-md">
@@ -79,12 +78,10 @@ const NoteCard = ({
               quantity={quantity}
               title={title}
               description={description}
-              refreshBudget={refreshBudget}
             />
             <DeleteDenominationDialog 
               budget_id={budget_id} 
-              note_id={id} 
-              refreshBudget={refreshBudget} 
+              note_id={id}  
             />
           </div>
         )}
