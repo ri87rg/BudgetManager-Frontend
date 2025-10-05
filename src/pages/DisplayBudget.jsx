@@ -6,7 +6,7 @@ import { SquarePen } from "lucide-react";
 import NotesHistoryDialog from "@/components/dialogs/ListNotesHistoryDialog";
 
 import NoteCard from "../components/cards/NoteCard";
-import TransactionCard from "@/components/cards/transactionCard";
+import TransactionCard from "@/components/cards/TransactionCard";
 
 import AddDenominationDialog from "@/components/dialogs/AddDenominationDialog";
 import MakeTransactionDialog from "@/components/dialogs/MakeTransactionDialog";
