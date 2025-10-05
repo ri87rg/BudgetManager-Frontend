@@ -3,6 +3,8 @@ import { format } from "date-fns"
 
 type NoteHistory = {
   id: string
+  title: string
+  description: string
   denomination: number
   quantity: number
   timestamp: string
@@ -22,7 +24,7 @@ export default function NoteHistoryCard({ note }: Props) {
         <CardTitle className="text-lg font-semibold">
           {note.denomination.toLocaleString()} IQD
         </CardTitle>
-        <CardDescription className="">
+        <CardDescription className={`${note.action == "added" ? "text-green-600" : note.action == "deleted" ? "text-red-600" : "text-sky-600"}`}>
           {note.action ? note.action : "Update"}
         </CardDescription>
       </CardHeader>
@@ -35,12 +37,16 @@ export default function NoteHistoryCard({ note }: Props) {
           <p className="text-sm text-muted-foreground">
             Total:{" "}
             <span
-              className={`font-semibold ${
-                totalValue > 0 ? "text-green-600" : totalValue < 0 ? "text-red-600" : "text-gray-500"
-              }`}
+              className={`font-semibold ${note.action == "added" ? "text-green-600" : note.action == "deleted" ? "text-red-600" : "text-sky-600"}`}
             >
               {totalValue.toLocaleString()} IQD
             </span>
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Title: <span className="font-medium">{note.title}</span>
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Description: <span className="font-medium wrap-break-word">{note.description}</span>
           </p>
         </div>
 
